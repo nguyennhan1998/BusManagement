@@ -1,0 +1,82 @@
+﻿@model IEnumerable<BusManagement.Models.Route>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StarTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstimateDistance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstimateArrivalTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstimatePassenger)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bus.BusName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Departure.DepartureName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destination.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StarTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstimateDistance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstimateArrivalTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstimatePassenger)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bus.BusName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Departure.DepartureName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Destination.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

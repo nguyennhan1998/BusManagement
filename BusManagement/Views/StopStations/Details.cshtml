@@ -1,0 +1,43 @@
+﻿@model BusManagement.Models.StopStation
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>StopStation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StopLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StopLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeStop)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeStop)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Route.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Route.Price)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
