@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BusManagement.Models;
+using PagedList;
 
 namespace BusManagement.Controllers
 {
@@ -15,6 +16,48 @@ namespace BusManagement.Controllers
         private busmanagementEntities db = new busmanagementEntities();
 
         // GET: Departures
+        public ViewResult Index(string sortOrder, string searchString, string currentFilter, int? page)
+        {/*
+            List<Student> students = db.Students.ToList();
+            String query = " SELECT * FROM student";//SQL
+            return View(db.Students.ToList());*/
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "departure name" : "";
+            ViewBag.CurrentSort = sortOrder;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+            var departures = from s in db.Departures select s;//LINQ
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                departures = departures.Where(s => s.DepartureName.Contains(searchString));
+            }
+
+            // db.Students.ToList(); laft list mac dinh trong database
+
+            //select * from student
+            switch (sortOrder)
+            {
+                case "departure_name":
+                    departures = departures.OrderByDescending(s => s.DepartureName);
+
+                    break;
+                default:
+                    departures = departures.OrderBy(s => s.DepartureName);
+                    break;
+            }
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(departures.ToPagedList(pageNumber, pageSize));
+
+
+        }
+
         public ActionResult Index()
         {
             return View(db.Departures.ToList());
