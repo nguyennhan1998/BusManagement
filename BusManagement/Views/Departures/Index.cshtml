@@ -15,7 +15,12 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DepartureName)
+            @Html.ActionLink("Departure name", "Index", new
+       {
+           sortOrder = ViewBag.NameSortParm,
+           currentFilter = ViewBag.CurrentFilter
+       })
+         
         </th>
         <th></th>
     </tr>
