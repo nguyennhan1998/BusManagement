@@ -12,7 +12,7 @@ namespace BusManagement.Controllers
 {
     public class UsersController : Controller
     {
-        private busmanagementEntities db = new busmanagementEntities();
+        private busmanagementEntities1 db = new busmanagementEntities1();
 
         // GET: Users
         public ActionResult Index()

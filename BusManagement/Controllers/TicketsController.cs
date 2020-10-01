@@ -7,19 +7,52 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BusManagement.Models;
+using PagedList;
 
 namespace BusManagement.Controllers
 {
     public class TicketsController : Controller
     {
-        private busmanagementEntities db = new busmanagementEntities();
+        private busmanagementEntities1 db = new busmanagementEntities1();
 
         // GET: Tickets
-        public ActionResult Index()
+        public ViewResult Index(string sortOrder, string search, string currentFilter, int? page)
         {
-            var tickets = db.Tickets.Include(t => t.Route).Include(t => t.User);
-            return View(tickets.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            if (search != null)
+            {
+                page = 1; // nếu search có giá trị trả về page = 1
+            }
+            else
+            {
+                search = currentFilter;
+            }
+            ViewBag.CurrentFilter = search;
+            var ticket = from s in db.Tickets select s;
+            if (!String.IsNullOrEmpty(search)) // nếu search string có thì in ra hoặc không thì không in ra
+            {
+                ticket = ticket.Where(s => s.TicketCode.Contains(search)); // contains là để check xem lastname hoặc firstName có chứa search string ở trên 
+
+            }
+            switch (sortOrder)
+            {
+                case "name desc":
+                    ticket = ticket.OrderByDescending(s => s.TicketCode);
+                    break;
+
+                default:
+                    ticket = ticket.OrderBy(s => s.TicketCode);
+                    break;
+            }
+            int pageSize = 3; //  khai báo số lượng record trên 1 page
+            int pageNumber = (page ?? 1); // page number là page đang chọn nếu không chọn sẽ = 1
+            return View(ticket.ToPagedList(pageNumber, pageSize));
+            /*      var students = db.Students.Include(s => s.Class);*/
+            /*   return View(students.ToList());*/
         }
+
 
         // GET: Tickets/Details/5
         public ActionResult Details(int? id)

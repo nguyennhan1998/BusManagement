@@ -13,10 +13,10 @@ namespace BusManagement.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class busmanagementEntities : DbContext
+    public partial class busmanagementEntities1 : DbContext
     {
-        public busmanagementEntities()
-            : base("name=busmanagementEntities")
+        public busmanagementEntities1()
+            : base("name=busmanagementEntities1")
         {
         }
     

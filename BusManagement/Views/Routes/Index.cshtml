@@ -42,41 +42,52 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StarTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstimateDistance)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstimateArrivalTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstimatePassenger)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bus.BusName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Departure.DepartureName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Destination.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StarTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimateDistance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimateArrivalTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimatePassenger)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bus.BusName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Departure.DepartureName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+<div class="row">
+    <div class="col-sm-12 col-md-10">
+        Current @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount Page
+    </div>
+    <div class="col-sm-12 col-md-2">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, @class = "btn btn-sm btn-primary" }))
+
+    </div>
+</div>
+

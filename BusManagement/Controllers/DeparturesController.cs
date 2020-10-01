@@ -13,56 +13,45 @@ namespace BusManagement.Controllers
 {
     public class DeparturesController : Controller
     {
-        private busmanagementEntities db = new busmanagementEntities();
+        private busmanagementEntities1 db = new busmanagementEntities1();
 
         // GET: Departures
-        public ViewResult Index(string sortOrder, string searchString, string currentFilter, int? page)
-        {/*
-            List<Student> students = db.Students.ToList();
-            String query = " SELECT * FROM student";//SQL
-            return View(db.Students.ToList());*/
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "departure name" : "";
+        public ViewResult Index(string sortOrder, string search, string currentFilter, int? page)
+        {
             ViewBag.CurrentSort = sortOrder;
-            if (searchString != null)
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            if (search != null)
             {
-                page = 1;
+                page = 1; // nếu search có giá trị trả về page = 1
             }
             else
             {
-                searchString = currentFilter;
+                search = currentFilter;
             }
-            ViewBag.CurrentFilter = searchString;
-            var departures = from s in db.Departures select s;//LINQ
-            if (!String.IsNullOrEmpty(searchString))
+            ViewBag.CurrentFilter = search;
+            var departure = from s in db.Departures select s;
+            if (!String.IsNullOrEmpty(search)) // nếu search string có thì in ra hoặc không thì không in ra
             {
-                departures = departures.Where(s => s.DepartureName.Contains(searchString));
+                departure = departure.Where(s => s.DepartureName.Contains(search)); // contains là để check xem lastname hoặc firstName có chứa search string ở trên 
+
             }
-
-            // db.Students.ToList(); laft list mac dinh trong database
-
-            //select * from student
             switch (sortOrder)
             {
-                case "departure_name":
-                    departures = departures.OrderByDescending(s => s.DepartureName);
-
+                case "name desc":
+                    departure = departure.OrderByDescending(s => s.DepartureName);
                     break;
+
                 default:
-                    departures = departures.OrderBy(s => s.DepartureName);
+                    departure = departure.OrderBy(s => s.DepartureName);
                     break;
             }
-            int pageSize = 3;
-            int pageNumber = (page ?? 1);
-            return View(departures.ToPagedList(pageNumber, pageSize));
-
-
+            int pageSize = 3; //  khai báo số lượng record trên 1 page
+            int pageNumber = (page ?? 1); // page number là page đang chọn nếu không chọn sẽ = 1
+            return View(departure.ToPagedList(pageNumber, pageSize));
+            /*      var students = db.Students.Include(s => s.Class);*/
+            /*   return View(students.ToList());*/
         }
-
-        public ActionResult Index()
-        {
-            return View(db.Departures.ToList());
-        }
-
         // GET: Departures/Details/5
         public ActionResult Details(int? id)
         {
